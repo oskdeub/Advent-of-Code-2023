@@ -9,6 +9,7 @@ def find_first_number(string):
     for x in string:
         if x.isdigit():
             return x
+        
 def get_calibration_value(string):
     reverse_string = string[::-1]
     first_num = find_first_number(string)
