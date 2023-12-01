@@ -14,13 +14,14 @@ def get_calibration_value(string):
     first_num = find_first_number(string)
     last_num = find_first_number(reverse_string)
     number = first_num + last_num
+    #print(number)
     return int(number)
-
+        
 def replace_spelled_numbers(string):
     
     #print("finding spelled numbers for " + string)
     spelled_numbers = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
-    numbers_dict = {
+    num_dict = {
         "one" : 1,
         "two" : 2,
         "three" : 3,
@@ -32,45 +33,52 @@ def replace_spelled_numbers(string):
         "nine" : 9
     }
     
-    found_spelled_numbers = {}
-    
+    found_dict = {}
+    indexes = []
     for x in spelled_numbers:
         if x in string:
-            #print(x + " found at index " + str(string.index(x)))
-            found_spelled_numbers[string.index(x)] = x
-            # string = string.replace(x, str(num))
-            # Problem, eightwothree should return 83, not eigh23. Since it checks for two before eight this become wrong.
-            # The number found first is priority, so index matters here.
+            print(x + " found at index " + str(string.index(x)))
+            found_dict[string.index(x)] = x
+            indexes.append(string.index(x))
+
+    '''
+    if len(found_dict) > 0:
+        order = sorted(found_dict.keys())
+        string = string.replace(found_dict[order[0]], str(num_dict[found_dict[order[0]]]), 1)
+        print(string)
+    '''
+    order = sorted(found_dict.keys())
+    print(order)
+    for x in order:
+        #print(found_dict[x])
+        #print(num_dict[found_dict[x]])
+        new_substring = found_dict[x]
+        new_substring = new_substring[:1] + str(num_dict[found_dict[x]]) + new_substring[1:]
         
-    #print(string)
-    
-    if len(found_spelled_numbers) > 0:
-        #print(found_spelled_numbers)
-        order = sorted(found_spelled_numbers.keys())
-        #print(order[0])
-        #print(found_spelled_numbers[order[0]])
-        string = string.replace(found_spelled_numbers[order[0]], str(numbers_dict[found_spelled_numbers[order[0]]]))
-        #print(string)
-    
+        string = string.replace(found_dict[x], new_substring)
+        
+        print(string)
+        print("")
+        
+        # e8ighto1ne8ight = eight8one1i
+    '''   
     for x in spelled_numbers:
         if x in string:
             return replace_spelled_numbers(string)
-    
+    ''' 
     return string
-    #now only replace them one at a time, to make sure none goes lost when the substring is replaced with a number
-    
-    #Replace first found spelled number with corresponding number using the numbers_dict dictionary.
-    
-            
 
 def main():
 
     lines = read_file('example2.txt')
+    #lines = ["oneight"]
 
     for x in range(0, len(lines)):
+        print("------------------------------")
+        print(lines[x])
         lines[x] = replace_spelled_numbers(lines[x])
         print(lines[x])
-    
+        print("------------------------------")
     sum = 0
     for x in lines:
         sum += get_calibration_value(x)
