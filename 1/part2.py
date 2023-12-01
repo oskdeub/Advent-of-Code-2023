@@ -8,14 +8,18 @@ def find_first_number(string):
     for x in string:
         if x.isdigit():
             return x
-        
+
+# --- Joins the first and last number of string into a two-digit number ---
 def get_calibration_value(string):
     reverse_string = string[::-1]
     first_num = find_first_number(string)
     last_num = find_first_number(reverse_string)
     number = first_num + last_num
     return int(number)
+
+# --- Inserts number into index 1 of string ---
 def insert_number_after_head(string, number):
+    
     return string[:1] + str(number) + string[1:]
     
 def replace_spelled_numbers(string):
